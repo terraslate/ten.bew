@@ -1,0 +1,12 @@
+{
+  "namespaces": {
+    "asp": "ten.bew.Server.Chunks, ten.bew"
+  },
+  "chunks": [
+    {
+      "name": "asp:Caching",
+      "config": {
+      }
+    }
+   ]
+}

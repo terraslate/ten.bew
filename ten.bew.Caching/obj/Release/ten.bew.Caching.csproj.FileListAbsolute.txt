@@ -1,0 +1,4 @@
+C:\Users\Jason.Stoll\Documents\Visual Studio 2013\Projects\ten.bew\ten.bew.Caching\bin\Release\ten.bew.Caching.dll
+C:\Users\Jason.Stoll\Documents\Visual Studio 2013\Projects\ten.bew\ten.bew.Caching\bin\Release\ten.bew.Caching.pdb
+C:\Users\Jason.Stoll\Documents\Visual Studio 2013\Projects\ten.bew\ten.bew.Caching\obj\Release\ten.bew.Caching.dll
+C:\Users\Jason.Stoll\Documents\Visual Studio 2013\Projects\ten.bew\ten.bew.Caching\obj\Release\ten.bew.Caching.pdb

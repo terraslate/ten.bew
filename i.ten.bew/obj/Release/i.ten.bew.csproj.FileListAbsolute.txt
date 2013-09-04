@@ -1,0 +1,6 @@
+C:\Users\Jason.Stoll\Documents\Visual Studio 2013\Projects\ten.bew\i.ten.bew\bin\Release\i.ten.bew.dll
+C:\Users\Jason.Stoll\Documents\Visual Studio 2013\Projects\ten.bew\i.ten.bew\bin\Release\i.ten.bew.pdb
+C:\Users\Jason.Stoll\Documents\Visual Studio 2013\Projects\ten.bew\i.ten.bew\bin\Release\Newtonsoft.Json.dll
+C:\Users\Jason.Stoll\Documents\Visual Studio 2013\Projects\ten.bew\i.ten.bew\bin\Release\Newtonsoft.Json.xml
+C:\Users\Jason.Stoll\Documents\Visual Studio 2013\Projects\ten.bew\i.ten.bew\obj\Release\i.ten.bew.dll
+C:\Users\Jason.Stoll\Documents\Visual Studio 2013\Projects\ten.bew\i.ten.bew\obj\Release\i.ten.bew.pdb

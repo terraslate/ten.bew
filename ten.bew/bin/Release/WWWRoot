@@ -1,0 +1,252 @@
+{
+  "namespaces": {
+    "asp": "ten.bew.Server.Chunks, ten.bew"
+  },
+  "chunks": [
+    {
+      "name": "asp:Caching",
+      "config": {
+      }
+    }
+   ]
+}<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>IIS7</title>
+<style type="text/css">
+<!--
+body {
+	color:#000000;
+	background-color:#B3B3B3;
+	margin:0;
+}
+
+#container {
+	margin-left:auto;
+	margin-right:auto;
+	text-align:center;
+	}
+
+a img {
+	border:none;
+}
+
+-->
+</style>
+</head>
+<body>
+<div id="container">
+<a href="http://go.microsoft.com/fwlink/?linkid=66138&amp;clcid=0x409"><img src="welcome.png" alt="IIS7" width="571" height="411" /></a>
+</div>
+</body>
+</html>{
+  "namespaces": {
+    "asp": "ten.bew.Server.Chunks, ten.bew",
+    "asp2": "POC.ten.bew.App.Chunks, POC.ten.bew.App"
+  },
+  "chunks": [
+    {
+      "name": "asp:Static",
+      "config": {
+        "text": "<html><body><h1>ten.bew</h1>",
+      }
+    },
+    {
+      "name": "asp2:Business",
+      "config": {
+        "connectionString": "Data Source=SOME_ADDRESS;Initial Catalog=TEST;User ID=SOME_ID;Password=SOME_PASSWORD",
+        "id": "1"
+      }
+    },
+    {
+      "name": "asp2:Business",
+      "config": {
+        "connectionString": "Data Source=SOME_ADDRESS;Initial Catalog=TEST;User ID=SOME_ID;Password=SOME_PASSWORD",
+        "id": "2"
+      }
+    },
+    {
+      "name": "asp2:Business",
+      "config": {
+        "connectionString": "Data Source=SOME_ADDRESS;Initial Catalog=TEST;User ID=SOME_ID;Password=SOME_PASSWORD",
+        "id": "3"
+      }
+    },
+    {
+      "name": "asp2:Csv",
+      "config": {
+        "sql": "SELECT * from Member"
+      }
+    },
+    {
+      "name": "asp2:Business",
+      "config": {
+        "connectionString": "Data Source=SOME_ADDRESS;Initial Catalog=TEST;User ID=SOME_ID;Password=SOME_PASSWORD",
+        "id": "1"
+      }
+    },
+    {
+      "name": "asp2:Business",
+      "config": {
+        "connectionString": "Data Source=SOME_ADDRESS;Initial Catalog=TEST;User ID=SOME_ID;Password=SOME_PASSWORD",
+        "id": "2"
+      }
+    },
+    {
+      "name": "asp2:Business",
+      "config": {
+        "connectionString": "Data Source=SOME_ADDRESS;Initial Catalog=TEST;User ID=SOME_ID;Password=SOME_PASSWORD",
+        "id": "3"
+      }
+    },
+    {
+      "name": "asp2:Csv",
+      "config": {
+        "sql": "SELECT * from Member"
+      }
+    },
+    {
+      "name": "asp2:Business",
+      "config": {
+        "connectionString": "Data Source=SOME_ADDRESS;Initial Catalog=TEST;User ID=SOME_ID;Password=SOME_PASSWORD",
+        "id": "1"
+      }
+    },
+    {
+      "name": "asp2:Business",
+      "config": {
+        "connectionString": "Data Source=SOME_ADDRESS;Initial Catalog=TEST;User ID=SOME_ID;Password=SOME_PASSWORD",
+        "id": "2"
+      }
+    },
+    {
+      "name": "asp2:Business",
+      "config": {
+        "connectionString": "Data Source=SOME_ADDRESS;Initial Catalog=TEST;User ID=SOME_ID;Password=SOME_PASSWORD",
+        "id": "3"
+      }
+    },
+    {
+      "name": "asp2:Csv",
+      "config": {
+        "sql": "SELECT * from Member"
+      }
+    },
+    {
+      "name": "asp2:Business",
+      "config": {
+        "connectionString": "Data Source=SOME_ADDRESS;Initial Catalog=TEST;User ID=SOME_ID;Password=SOME_PASSWORD",
+        "id": "1"
+      }
+    },
+    {
+      "name": "asp2:Business",
+      "config": {
+        "connectionString": "Data Source=SOME_ADDRESS;Initial Catalog=TEST;User ID=SOME_ID;Password=SOME_PASSWORD",
+        "id": "2"
+      }
+    },
+    {
+      "name": "asp2:Business",
+      "config": {
+        "connectionString": "Data Source=SOME_ADDRESS;Initial Catalog=TEST;User ID=SOME_ID;Password=SOME_PASSWORD",
+        "id": "3"
+      }
+    },
+    {
+      "name": "asp2:Csv",
+      "config": {
+        "sql": "SELECT * from Member"
+      }
+    },
+    {
+      "name": "asp2:Business",
+      "config": {
+        "connectionString": "Data Source=SOME_ADDRESS;Initial Catalog=TEST;User ID=SOME_ID;Password=SOME_PASSWORD",
+        "id": "1"
+      }
+    },
+    {
+      "name": "asp2:Business",
+      "config": {
+        "connectionString": "Data Source=SOME_ADDRESS;Initial Catalog=TEST;User ID=SOME_ID;Password=SOME_PASSWORD",
+        "id": "2"
+      }
+    },
+    {
+      "name": "asp2:Business",
+      "config": {
+        "connectionString": "Data Source=SOME_ADDRESS;Initial Catalog=TEST;User ID=SOME_ID;Password=SOME_PASSWORD",
+        "id": "3"
+      }
+    },
+    {
+      "name": "asp2:Csv",
+      "config": {
+        "sql": "SELECT * from Member"
+      }
+    },
+    {
+      "name": "asp2:Business",
+      "config": {
+        "connectionString": "Data Source=SOME_ADDRESS;Initial Catalog=TEST;User ID=SOME_ID;Password=SOME_PASSWORD",
+        "id": "1"
+      }
+    },
+    {
+      "name": "asp2:Business",
+      "config": {
+        "connectionString": "Data Source=SOME_ADDRESS;Initial Catalog=TEST;User ID=SOME_ID;Password=SOME_PASSWORD",
+        "id": "2"
+      }
+    },
+    {
+      "name": "asp2:Business",
+      "config": {
+        "connectionString": "Data Source=SOME_ADDRESS;Initial Catalog=TEST;User ID=SOME_ID;Password=SOME_PASSWORD",
+        "id": "3"
+      }
+    },
+    {
+      "name": "asp2:Csv",
+      "config": {
+        "sql": "SELECT * from Member"
+      }
+    },
+    {
+      "name": "asp2:Business",
+      "config": {
+        "connectionString": "Data Source=SOME_ADDRESS;Initial Catalog=TEST;User ID=SOME_ID;Password=SOME_PASSWORD",
+        "id": "1"
+      }
+    },
+    {
+      "name": "asp2:Business",
+      "config": {
+        "connectionString": "Data Source=SOME_ADDRESS;Initial Catalog=TEST;User ID=SOME_ID;Password=SOME_PASSWORD",
+        "id": "2"
+      }
+    },
+    {
+      "name": "asp2:Business",
+      "config": {
+        "connectionString": "Data Source=SOME_ADDRESS;Initial Catalog=TEST;User ID=SOME_ID;Password=SOME_PASSWORD",
+        "id": "3"
+      }
+    },
+    {
+      "name": "asp2:Csv",
+      "config": {
+        "sql": "SELECT * from Member"
+      }
+    },
+    {
+      "name": "asp:Static",
+      "config": {
+        "text": "</body></html>",
+      }
+    },
+  ]
+}‰PNG
+

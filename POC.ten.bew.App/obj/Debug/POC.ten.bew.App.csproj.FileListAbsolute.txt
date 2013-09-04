@@ -1,0 +1,17 @@
+C:\Users\Jason.Stoll\Documents\Visual Studio 2013\Projects\ten.bew\POC.ten.bew.App\bin\Debug\WWWRoot\caching.page
+C:\Users\Jason.Stoll\Documents\Visual Studio 2013\Projects\ten.bew\POC.ten.bew.App\bin\Debug\WWWRoot\index.page
+C:\Users\Jason.Stoll\Documents\Visual Studio 2013\Projects\ten.bew\POC.ten.bew.App\bin\Debug\WWWRoot\iisstart.htm
+C:\Users\Jason.Stoll\Documents\Visual Studio 2013\Projects\ten.bew\POC.ten.bew.App\bin\Debug\WWWRoot\welcome.png
+C:\Users\Jason.Stoll\Documents\Visual Studio 2013\Projects\ten.bew\POC.ten.bew.App\bin\Debug\EF.ten.bew.App.dll
+C:\Users\Jason.Stoll\Documents\Visual Studio 2013\Projects\ten.bew\POC.ten.bew.App\bin\Debug\EF.ten.bew.App.pdb
+C:\Users\Jason.Stoll\Documents\Visual Studio 2013\Projects\ten.bew\POC.ten.bew.App\bin\Debug\i.ten.bew.dll
+C:\Users\Jason.Stoll\Documents\Visual Studio 2013\Projects\ten.bew\POC.ten.bew.App\bin\Debug\Newtonsoft.Json.dll
+C:\Users\Jason.Stoll\Documents\Visual Studio 2013\Projects\ten.bew\POC.ten.bew.App\bin\Debug\ten.bew.exe
+C:\Users\Jason.Stoll\Documents\Visual Studio 2013\Projects\ten.bew\POC.ten.bew.App\bin\Debug\ten.bew.Caching.dll
+C:\Users\Jason.Stoll\Documents\Visual Studio 2013\Projects\ten.bew\POC.ten.bew.App\bin\Debug\i.ten.bew.pdb
+C:\Users\Jason.Stoll\Documents\Visual Studio 2013\Projects\ten.bew\POC.ten.bew.App\bin\Debug\ten.bew.pdb
+C:\Users\Jason.Stoll\Documents\Visual Studio 2013\Projects\ten.bew\POC.ten.bew.App\bin\Debug\Newtonsoft.Json.xml
+C:\Users\Jason.Stoll\Documents\Visual Studio 2013\Projects\ten.bew\POC.ten.bew.App\bin\Debug\ten.bew.Caching.pdb
+C:\Users\Jason.Stoll\Documents\Visual Studio 2013\Projects\ten.bew\POC.ten.bew.App\obj\Debug\POC.ten.bew.App.csprojResolveAssemblyReference.cache
+C:\Users\Jason.Stoll\Documents\Visual Studio 2013\Projects\ten.bew\POC.ten.bew.App\obj\Debug\EF.ten.bew.App.dll
+C:\Users\Jason.Stoll\Documents\Visual Studio 2013\Projects\ten.bew\POC.ten.bew.App\obj\Debug\EF.ten.bew.App.pdb

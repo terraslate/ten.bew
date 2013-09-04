@@ -1,0 +1,3 @@
+C:\Users\Jason.Stoll\Documents\visual studio 2013\Projects\ten.bew\ten.bew\bin\Release\ten.bew.exe.config
+C:\Users\Jason.Stoll\Documents\visual studio 2013\Projects\ten.bew\ten.bew\obj\Release\ten.bew.exe
+C:\Users\Jason.Stoll\Documents\visual studio 2013\Projects\ten.bew\ten.bew\obj\Release\ten.bew.pdb

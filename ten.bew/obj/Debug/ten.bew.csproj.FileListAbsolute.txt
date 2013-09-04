@@ -1,0 +1,12 @@
+C:\Users\Jason.Stoll\Documents\Visual Studio 2013\Projects\ten.bew\ten.bew\bin\Debug\ten.bew.exe.config
+C:\Users\Jason.Stoll\Documents\Visual Studio 2013\Projects\ten.bew\ten.bew\bin\Debug\ten.bew.exe
+C:\Users\Jason.Stoll\Documents\Visual Studio 2013\Projects\ten.bew\ten.bew\bin\Debug\ten.bew.pdb
+C:\Users\Jason.Stoll\Documents\Visual Studio 2013\Projects\ten.bew\ten.bew\bin\Debug\i.ten.bew.dll
+C:\Users\Jason.Stoll\Documents\Visual Studio 2013\Projects\ten.bew\ten.bew\bin\Debug\Newtonsoft.Json.dll
+C:\Users\Jason.Stoll\Documents\Visual Studio 2013\Projects\ten.bew\ten.bew\bin\Debug\ten.bew.Caching.dll
+C:\Users\Jason.Stoll\Documents\Visual Studio 2013\Projects\ten.bew\ten.bew\bin\Debug\ten.bew.Caching.pdb
+C:\Users\Jason.Stoll\Documents\Visual Studio 2013\Projects\ten.bew\ten.bew\bin\Debug\i.ten.bew.pdb
+C:\Users\Jason.Stoll\Documents\Visual Studio 2013\Projects\ten.bew\ten.bew\bin\Debug\Newtonsoft.Json.xml
+C:\Users\Jason.Stoll\Documents\Visual Studio 2013\Projects\ten.bew\ten.bew\obj\Debug\ten.bew.csprojResolveAssemblyReference.cache
+C:\Users\Jason.Stoll\Documents\Visual Studio 2013\Projects\ten.bew\ten.bew\obj\Debug\ten.bew.exe
+C:\Users\Jason.Stoll\Documents\Visual Studio 2013\Projects\ten.bew\ten.bew\obj\Debug\ten.bew.pdb
