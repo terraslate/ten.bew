@@ -6,12 +6,12 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace ten.bew.Configuration
-{   
+{
     public class MainConfigurationSection : ConfigurationSection
     {
         [ConfigurationProperty("messageProcessors")]
         public KeyValueConfigurationCollection MessageProcessors
-        {              
+        {
             get
             {
                 var rv = (KeyValueConfigurationCollection)this["messageProcessors"];
@@ -23,22 +23,40 @@ namespace ten.bew.Configuration
             }
         }
 
-        [ConfigurationProperty("rootDisk")]
-        public string RootDisk 
+        [ConfigurationProperty("caching")]
+        public CachingConfigurationElement Caching
         {
             get
             {
-                var rv = (string)this["rootDisk"];
+                var rv = (CachingConfigurationElement)this["caching"];
                 return rv;
             }
             set
             {
-                this["rootDisk"] = value;
+                this["caching"] = value;
             }
         }
 
+        [ConfigurationProperty("httpServer")]
+        public HttpServerConfigurationElement HttpServer
+        {
+            get
+            {
+                var rv = (HttpServerConfigurationElement)this["httpServer"];
+                return rv;
+            }
+            set
+            {
+                this["httpServer"] = value;
+            }
+        }
+    }
+
+
+    public class CachingConfigurationElement : ConfigurationElement
+    {
         [ConfigurationProperty("shardStart")]
-        public ulong ShardStart 
+        public ulong ShardStart
         {
             get
             {
@@ -53,7 +71,7 @@ namespace ten.bew.Configuration
 
 
         [ConfigurationProperty("shardEnd")]
-        public ulong ShardEnd 
+        public ulong ShardEnd
         {
             get
             {
@@ -63,6 +81,37 @@ namespace ten.bew.Configuration
             set
             {
                 this["shardEnd"] = value;
+            }
+        }
+    }
+
+    public class HttpServerConfigurationElement : ConfigurationElement
+    {
+        [ConfigurationProperty("rootDisk")]
+        public string RootDisk
+        {
+            get
+            {
+                var rv = (string)this["rootDisk"];
+                return rv;
+            }
+            set
+            {
+                this["rootDisk"] = value;
+            }
+        }
+
+        [ConfigurationProperty("port")]
+        public ushort Port
+        {
+            get
+            {
+                var rv = (ushort)this["port"];
+                return rv;
+            }
+            set
+            {
+                this["port"] = value;
             }
         }
     }

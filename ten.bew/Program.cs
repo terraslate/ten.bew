@@ -51,8 +51,8 @@ namespace ten.bew
         }
 
         private static void Run()
-        {            
-             _config = (MainConfigurationSection)System.Configuration.ConfigurationManager.GetSection("tenbew");
+        {
+            _config = (MainConfigurationSection)System.Configuration.ConfigurationManager.GetSection("tenbew");
 
             ThreadPool.SetMinThreads(Environment.ProcessorCount * 2, Environment.ProcessorCount);
             ThreadPool.SetMaxThreads(Environment.ProcessorCount * 4, Environment.ProcessorCount * 2);
@@ -96,13 +96,13 @@ namespace ten.bew
                         if (address.Address.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
                         {
                             var ipAddress = address.Address.ToString();
-                            localServerIp.Add(string.Format("http://{0}:801/", ipAddress));
+                            localServerIp.Add(string.Format("http://{0}:{1}/", ipAddress, _config.HttpServer.Port));
                         }
                     }
                 }
             }
 
-            localServerIp.Add(string.Format("http://{0}:801/", "localhost"));
+            localServerIp.Add(string.Format("http://{0}:{1}/", "localhost", _config.HttpServer.Port));
 
             foreach (var address in localServerIp)
             {
@@ -111,18 +111,18 @@ namespace ten.bew
 
             var statistics = new ServerStatistics();
 
-            string httpServerRoot = _config.RootDisk;
+            string httpServerRoot = _config.HttpServer.RootDisk;
 
-            if(httpServerRoot.StartsWith("\\"))
+            if (httpServerRoot.StartsWith("\\"))
             {
                 var uri = new Uri(Assembly.GetExecutingAssembly().CodeBase);
                 var relativeDir = Path.GetDirectoryName(uri.AbsolutePath);
-                relativeDir = relativeDir.Replace("%20", " ");
+                relativeDir = WebUtility.UrlDecode(relativeDir);
 
                 httpServerRoot = relativeDir + httpServerRoot;
             }
 
-            if(Directory.Exists(httpServerRoot) == false)
+            if (Directory.Exists(httpServerRoot) == false)
             {
                 httpServerRoot = null; // which is fine because we might have a directoryless server.
             }

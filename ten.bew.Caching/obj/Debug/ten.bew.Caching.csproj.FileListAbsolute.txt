@@ -2,3 +2,7 @@ C:\Users\Jason.Stoll\Documents\Visual Studio 2013\Projects\ten.bew\ten.bew.Cachi
 C:\Users\Jason.Stoll\Documents\Visual Studio 2013\Projects\ten.bew\ten.bew.Caching\bin\Debug\ten.bew.Caching.pdb
 C:\Users\Jason.Stoll\Documents\Visual Studio 2013\Projects\ten.bew\ten.bew.Caching\obj\Debug\ten.bew.Caching.dll
 C:\Users\Jason.Stoll\Documents\Visual Studio 2013\Projects\ten.bew\ten.bew.Caching\obj\Debug\ten.bew.Caching.pdb
+C:\Users\Jason.Stoll\Documents\GitHub\ten.bew\ten.bew.Caching\bin\Debug\ten.bew.Caching.dll
+C:\Users\Jason.Stoll\Documents\GitHub\ten.bew\ten.bew.Caching\bin\Debug\ten.bew.Caching.pdb
+C:\Users\Jason.Stoll\Documents\GitHub\ten.bew\ten.bew.Caching\obj\Debug\ten.bew.Caching.dll
+C:\Users\Jason.Stoll\Documents\GitHub\ten.bew\ten.bew.Caching\obj\Debug\ten.bew.Caching.pdb

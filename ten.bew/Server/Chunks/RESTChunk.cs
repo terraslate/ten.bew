@@ -58,6 +58,21 @@ namespace ten.bew.Server.Chunks
 
             string serializedJsonRequest = System.Text.Encoding.UTF8.GetString(packet);
 
+            JSONMessageProcessorBase.Payload payload = new JSONMessageProcessorBase.Payload()
+            {
+                JSON = serializedJsonRequest,
+                Cookies = client.Context.Request.Cookies,
+                AcceptTypes = client.Context.Request.AcceptTypes,
+                Method = client.Context.Request.HttpMethod,
+                Url = client.Context.Request.Url,
+            };
+
+            if(client.Context.User != null && client.Context.User.Identity != null) 
+            {
+                payload.User = client.Context.User.Identity.Name;
+                payload.IsAuthenticated = client.Context.User.Identity.IsAuthenticated;
+            }
+
             var parameters = client.Context.Request.RawUrl.Split('/');
             string action = parameters[1];
 
@@ -65,7 +80,8 @@ namespace ten.bew.Server.Chunks
             object responseObject = null;
             object outputRequest;
 
-            if (localHandler.CanHandleRequest(serializedJsonRequest, out outputRequest))
+
+            if (localHandler.CanHandleRequest(payload, out outputRequest))
             {
                 responseObject = localHandler.HandleRequest(outputRequest);
             }

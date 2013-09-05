@@ -67,7 +67,6 @@
     <Compile Include="Server\Chunks\SqlDataChunk.cs" />
     <Compile Include="Server\HttpServerImpl.cs" />
     <Compile Include="Server\Chunks\StaticChunk.cs" />
-    <Compile Include="LoopAndPumpScheduler.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

@@ -149,14 +149,17 @@ namespace ten.bew.Server
 
                 if(Path.GetExtension(context.Request.RawUrl) == "")
                 {
+                    client.Context.Response.ContentType = "application/json";
                     root = new RESTChunk(this);
                 }
                 else if (context.Request.RawUrl.EndsWith(".page"))
-                {
+                {  
+                    client.Context.Response.ContentType = "text/html";
                     root = new PageChunk(this, null);
                 }
                 else
                 {
+                    client.Context.Response.ContentType = "application/octet";
                     root = new FileChunk(this);
                 }
 

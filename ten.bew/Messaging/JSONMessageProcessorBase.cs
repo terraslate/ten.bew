@@ -17,11 +17,23 @@ namespace ten.bew.Caching
         public const int ERROR_UNRECOGNIZED_REQUEST = 2;
         public const int ERROR_UNKNOWN = 3;
 
+        [Serializable]
+        public class Payload
+        {
+            public string Method;
+            public Uri Url;
+            public string[] AcceptTypes;
+            public System.Net.CookieCollection Cookies;
+            public object JSON;
+            public string User;
+            public bool IsAuthenticated;
+        }
+
         protected override async Task<object> InternalProcessMessageAsync(i.ten.bew.Messaging.ServiceBusMessage message)
         {
             ISerializer serializer = Root.ServiceBusInstance.GetLocalService<ISerializer>();
 
-            object inputRequest = serializer.Deserialize(message.Data);
+            var inputRequest = (Payload)serializer.Deserialize(message.Data);
             object rv = null;
 
             object outputRequest;

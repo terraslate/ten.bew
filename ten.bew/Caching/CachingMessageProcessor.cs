@@ -18,8 +18,8 @@ namespace ten.bew.Caching
         public const int ERROR_UNKNOWN = 3;
 
         private Dictionary<ulong, CacheEntry> _items;
-        private ulong _shardStart = Program.Config.ShardStart;
-        private ulong _shardEnd = Program.Config.ShardEnd;
+        private ulong _shardStart = Program.Config.Caching.ShardStart;
+        private ulong _shardEnd = Program.Config.Caching.ShardEnd;
 
         public CachingMessageProcessor()
         {
@@ -212,6 +212,11 @@ namespace ten.bew.Caching
         {
             bool rv = false;
             outputRequest = null;
+
+            if (inputRequest is ten.bew.Caching.JSONMessageProcessorBase.Payload)
+            {
+                inputRequest = ((ten.bew.Caching.JSONMessageProcessorBase.Payload)inputRequest).JSON;
+            }
 
             if (inputRequest is string)
             {
