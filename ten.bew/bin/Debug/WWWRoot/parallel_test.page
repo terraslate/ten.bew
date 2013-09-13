@@ -11,32 +11,21 @@
       }
     },
     {
-      "name": "asp2:Business",
+      "name": "asp:Static",
       "config": {
-        "connectionString": "Data Source=10.128.43.57;Initial Catalog=TEST;User ID=test_user;Password=Test@12345",
-        "id": "1"
+        "text": "<p>Always at start</p>",
       }
     },
     {
-      "name": "asp2:Business",
+      "name": "asp:Parallel",
       "config": {
-        "connectionString": "Data Source=10.128.43.57;Initial Catalog=TEST;User ID=test_user;Password=Test@12345",
-        "id": "2"
-      }
-    },
-    {
-      "name": "asp2:Business",
-      "config": {
-        "connectionString": "Data Source=10.128.43.57;Initial Catalog=TEST;User ID=test_user;Password=Test@12345",
-        "id": "3"
-      }
-    },
-    {
-      "name": "asp2:Csv",
-      "config": {
-        "sql": "SELECT * from Member"
-      }
-    },
+
+		"namespaces": {
+		"asp": "ten.bew.Server.Chunks, ten.bew",
+		"asp2": "POC.ten.bew.App.Chunks, POC.ten.bew.App"
+		},
+
+        "chunks": [
     {
       "name": "asp2:Business",
       "config": {
@@ -191,6 +180,42 @@
       "config": {
         "connectionString": "Data Source=10.128.43.57;Initial Catalog=TEST;User ID=test_user;Password=Test@12345",
         "id": "3"
+      }
+    },
+    {
+      "name": "asp2:Csv",
+      "config": {
+        "sql": "SELECT * from Member"
+      }
+    },
+    {
+      "name": "asp2:Business",
+      "config": {
+        "connectionString": "Data Source=10.128.43.57;Initial Catalog=TEST;User ID=test_user;Password=Test@12345",
+        "id": "1"
+      }
+    },
+    {
+      "name": "asp2:Business",
+      "config": {
+        "connectionString": "Data Source=10.128.43.57;Initial Catalog=TEST;User ID=test_user;Password=Test@12345",
+        "id": "2"
+      }
+    },
+    {
+      "name": "asp2:Business",
+      "config": {
+        "connectionString": "Data Source=10.128.43.57;Initial Catalog=TEST;User ID=test_user;Password=Test@12345",
+        "id": "3"
+      }
+    }
+		]		
+      }
+    },
+    {
+      "name": "asp:Static",
+      "config": {
+        "text": "<p>Always at end</p>",
       }
     },
     {

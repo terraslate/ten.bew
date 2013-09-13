@@ -55,21 +55,21 @@ a img {
     {
       "name": "asp2:Business",
       "config": {
-        "connectionString": "Data Source=SOME_ADDRESS;Initial Catalog=TEST;User ID=SOME_ID;Password=SOME_PASSWORD",
+        "connectionString": "Data Source=10.128.43.57;Initial Catalog=TEST;User ID=test_user;Password=Test@12345",
         "id": "1"
       }
     },
     {
       "name": "asp2:Business",
       "config": {
-        "connectionString": "Data Source=SOME_ADDRESS;Initial Catalog=TEST;User ID=SOME_ID;Password=SOME_PASSWORD",
+        "connectionString": "Data Source=10.128.43.57;Initial Catalog=TEST;User ID=test_user;Password=Test@12345",
         "id": "2"
       }
     },
     {
       "name": "asp2:Business",
       "config": {
-        "connectionString": "Data Source=SOME_ADDRESS;Initial Catalog=TEST;User ID=SOME_ID;Password=SOME_PASSWORD",
+        "connectionString": "Data Source=10.128.43.57;Initial Catalog=TEST;User ID=test_user;Password=Test@12345",
         "id": "3"
       }
     },
@@ -82,21 +82,21 @@ a img {
     {
       "name": "asp2:Business",
       "config": {
-        "connectionString": "Data Source=SOME_ADDRESS;Initial Catalog=TEST;User ID=SOME_ID;Password=SOME_PASSWORD",
+        "connectionString": "Data Source=10.128.43.57;Initial Catalog=TEST;User ID=test_user;Password=Test@12345",
         "id": "1"
       }
     },
     {
       "name": "asp2:Business",
       "config": {
-        "connectionString": "Data Source=SOME_ADDRESS;Initial Catalog=TEST;User ID=SOME_ID;Password=SOME_PASSWORD",
+        "connectionString": "Data Source=10.128.43.57;Initial Catalog=TEST;User ID=test_user;Password=Test@12345",
         "id": "2"
       }
     },
     {
       "name": "asp2:Business",
       "config": {
-        "connectionString": "Data Source=SOME_ADDRESS;Initial Catalog=TEST;User ID=SOME_ID;Password=SOME_PASSWORD",
+        "connectionString": "Data Source=10.128.43.57;Initial Catalog=TEST;User ID=test_user;Password=Test@12345",
         "id": "3"
       }
     },
@@ -109,21 +109,21 @@ a img {
     {
       "name": "asp2:Business",
       "config": {
-        "connectionString": "Data Source=SOME_ADDRESS;Initial Catalog=TEST;User ID=SOME_ID;Password=SOME_PASSWORD",
+        "connectionString": "Data Source=10.128.43.57;Initial Catalog=TEST;User ID=test_user;Password=Test@12345",
         "id": "1"
       }
     },
     {
       "name": "asp2:Business",
       "config": {
-        "connectionString": "Data Source=SOME_ADDRESS;Initial Catalog=TEST;User ID=SOME_ID;Password=SOME_PASSWORD",
+        "connectionString": "Data Source=10.128.43.57;Initial Catalog=TEST;User ID=test_user;Password=Test@12345",
         "id": "2"
       }
     },
     {
       "name": "asp2:Business",
       "config": {
-        "connectionString": "Data Source=SOME_ADDRESS;Initial Catalog=TEST;User ID=SOME_ID;Password=SOME_PASSWORD",
+        "connectionString": "Data Source=10.128.43.57;Initial Catalog=TEST;User ID=test_user;Password=Test@12345",
         "id": "3"
       }
     },
@@ -136,21 +136,21 @@ a img {
     {
       "name": "asp2:Business",
       "config": {
-        "connectionString": "Data Source=SOME_ADDRESS;Initial Catalog=TEST;User ID=SOME_ID;Password=SOME_PASSWORD",
+        "connectionString": "Data Source=10.128.43.57;Initial Catalog=TEST;User ID=test_user;Password=Test@12345",
         "id": "1"
       }
     },
     {
       "name": "asp2:Business",
       "config": {
-        "connectionString": "Data Source=SOME_ADDRESS;Initial Catalog=TEST;User ID=SOME_ID;Password=SOME_PASSWORD",
+        "connectionString": "Data Source=10.128.43.57;Initial Catalog=TEST;User ID=test_user;Password=Test@12345",
         "id": "2"
       }
     },
     {
       "name": "asp2:Business",
       "config": {
-        "connectionString": "Data Source=SOME_ADDRESS;Initial Catalog=TEST;User ID=SOME_ID;Password=SOME_PASSWORD",
+        "connectionString": "Data Source=10.128.43.57;Initial Catalog=TEST;User ID=test_user;Password=Test@12345",
         "id": "3"
       }
     },
@@ -163,21 +163,21 @@ a img {
     {
       "name": "asp2:Business",
       "config": {
-        "connectionString": "Data Source=SOME_ADDRESS;Initial Catalog=TEST;User ID=SOME_ID;Password=SOME_PASSWORD",
+        "connectionString": "Data Source=10.128.43.57;Initial Catalog=TEST;User ID=test_user;Password=Test@12345",
         "id": "1"
       }
     },
     {
       "name": "asp2:Business",
       "config": {
-        "connectionString": "Data Source=SOME_ADDRESS;Initial Catalog=TEST;User ID=SOME_ID;Password=SOME_PASSWORD",
+        "connectionString": "Data Source=10.128.43.57;Initial Catalog=TEST;User ID=test_user;Password=Test@12345",
         "id": "2"
       }
     },
     {
       "name": "asp2:Business",
       "config": {
-        "connectionString": "Data Source=SOME_ADDRESS;Initial Catalog=TEST;User ID=SOME_ID;Password=SOME_PASSWORD",
+        "connectionString": "Data Source=10.128.43.57;Initial Catalog=TEST;User ID=test_user;Password=Test@12345",
         "id": "3"
       }
     },
@@ -190,21 +190,21 @@ a img {
     {
       "name": "asp2:Business",
       "config": {
-        "connectionString": "Data Source=SOME_ADDRESS;Initial Catalog=TEST;User ID=SOME_ID;Password=SOME_PASSWORD",
+        "connectionString": "Data Source=10.128.43.57;Initial Catalog=TEST;User ID=test_user;Password=Test@12345",
         "id": "1"
       }
     },
     {
       "name": "asp2:Business",
       "config": {
-        "connectionString": "Data Source=SOME_ADDRESS;Initial Catalog=TEST;User ID=SOME_ID;Password=SOME_PASSWORD",
+        "connectionString": "Data Source=10.128.43.57;Initial Catalog=TEST;User ID=test_user;Password=Test@12345",
         "id": "2"
       }
     },
     {
       "name": "asp2:Business",
       "config": {
-        "connectionString": "Data Source=SOME_ADDRESS;Initial Catalog=TEST;User ID=SOME_ID;Password=SOME_PASSWORD",
+        "connectionString": "Data Source=10.128.43.57;Initial Catalog=TEST;User ID=test_user;Password=Test@12345",
         "id": "3"
       }
     },
@@ -217,22 +217,255 @@ a img {
     {
       "name": "asp2:Business",
       "config": {
-        "connectionString": "Data Source=SOME_ADDRESS;Initial Catalog=TEST;User ID=SOME_ID;Password=SOME_PASSWORD",
+        "connectionString": "Data Source=10.128.43.57;Initial Catalog=TEST;User ID=test_user;Password=Test@12345",
         "id": "1"
       }
     },
     {
       "name": "asp2:Business",
       "config": {
-        "connectionString": "Data Source=SOME_ADDRESS;Initial Catalog=TEST;User ID=SOME_ID;Password=SOME_PASSWORD",
+        "connectionString": "Data Source=10.128.43.57;Initial Catalog=TEST;User ID=test_user;Password=Test@12345",
         "id": "2"
       }
     },
     {
       "name": "asp2:Business",
       "config": {
-        "connectionString": "Data Source=SOME_ADDRESS;Initial Catalog=TEST;User ID=SOME_ID;Password=SOME_PASSWORD",
+        "connectionString": "Data Source=10.128.43.57;Initial Catalog=TEST;User ID=test_user;Password=Test@12345",
         "id": "3"
+      }
+    },
+    {
+      "name": "asp2:Csv",
+      "config": {
+        "sql": "SELECT * from Member"
+      }
+    },
+    {
+      "name": "asp:Static",
+      "config": {
+        "text": "</body></html>",
+      }
+    },
+  ]
+}{
+  "namespaces": {
+    "asp": "ten.bew.Server.Chunks, ten.bew",
+    "asp2": "POC.ten.bew.App.Chunks, POC.ten.bew.App"
+  },
+  "chunks": [
+    {
+      "name": "asp:Static",
+      "config": {
+        "text": "<html><body><h1>ten.bew</h1>",
+      }
+    },
+    {
+      "name": "asp:Static",
+      "config": {
+        "text": "<p>Always at start</p>",
+      }
+    },
+    {
+      "name": "asp:Parallel",
+      "config": {
+
+		"namespaces": {
+		"asp": "ten.bew.Server.Chunks, ten.bew",
+		"asp2": "POC.ten.bew.App.Chunks, POC.ten.bew.App"
+		},
+
+        "chunks": [
+    {
+      "name": "asp2:Business",
+      "config": {
+        "connectionString": "Data Source=10.128.43.57;Initial Catalog=TEST;User ID=test_user;Password=Test@12345",
+        "id": "1"
+      }
+    },
+    {
+      "name": "asp2:Business",
+      "config": {
+        "connectionString": "Data Source=10.128.43.57;Initial Catalog=TEST;User ID=test_user;Password=Test@12345",
+        "id": "2"
+      }
+    },
+    {
+      "name": "asp2:Business",
+      "config": {
+        "connectionString": "Data Source=10.128.43.57;Initial Catalog=TEST;User ID=test_user;Password=Test@12345",
+        "id": "3"
+      }
+    },
+    {
+      "name": "asp2:Csv",
+      "config": {
+        "sql": "SELECT * from Member"
+      }
+    },
+    {
+      "name": "asp2:Business",
+      "config": {
+        "connectionString": "Data Source=10.128.43.57;Initial Catalog=TEST;User ID=test_user;Password=Test@12345",
+        "id": "1"
+      }
+    },
+    {
+      "name": "asp2:Business",
+      "config": {
+        "connectionString": "Data Source=10.128.43.57;Initial Catalog=TEST;User ID=test_user;Password=Test@12345",
+        "id": "2"
+      }
+    },
+    {
+      "name": "asp2:Business",
+      "config": {
+        "connectionString": "Data Source=10.128.43.57;Initial Catalog=TEST;User ID=test_user;Password=Test@12345",
+        "id": "3"
+      }
+    },
+    {
+      "name": "asp2:Csv",
+      "config": {
+        "sql": "SELECT * from Member"
+      }
+    },
+    {
+      "name": "asp2:Business",
+      "config": {
+        "connectionString": "Data Source=10.128.43.57;Initial Catalog=TEST;User ID=test_user;Password=Test@12345",
+        "id": "1"
+      }
+    },
+    {
+      "name": "asp2:Business",
+      "config": {
+        "connectionString": "Data Source=10.128.43.57;Initial Catalog=TEST;User ID=test_user;Password=Test@12345",
+        "id": "2"
+      }
+    },
+    {
+      "name": "asp2:Business",
+      "config": {
+        "connectionString": "Data Source=10.128.43.57;Initial Catalog=TEST;User ID=test_user;Password=Test@12345",
+        "id": "3"
+      }
+    },
+    {
+      "name": "asp2:Csv",
+      "config": {
+        "sql": "SELECT * from Member"
+      }
+    },
+    {
+      "name": "asp2:Business",
+      "config": {
+        "connectionString": "Data Source=10.128.43.57;Initial Catalog=TEST;User ID=test_user;Password=Test@12345",
+        "id": "1"
+      }
+    },
+    {
+      "name": "asp2:Business",
+      "config": {
+        "connectionString": "Data Source=10.128.43.57;Initial Catalog=TEST;User ID=test_user;Password=Test@12345",
+        "id": "2"
+      }
+    },
+    {
+      "name": "asp2:Business",
+      "config": {
+        "connectionString": "Data Source=10.128.43.57;Initial Catalog=TEST;User ID=test_user;Password=Test@12345",
+        "id": "3"
+      }
+    },
+    {
+      "name": "asp2:Csv",
+      "config": {
+        "sql": "SELECT * from Member"
+      }
+    },
+    {
+      "name": "asp2:Business",
+      "config": {
+        "connectionString": "Data Source=10.128.43.57;Initial Catalog=TEST;User ID=test_user;Password=Test@12345",
+        "id": "1"
+      }
+    },
+    {
+      "name": "asp2:Business",
+      "config": {
+        "connectionString": "Data Source=10.128.43.57;Initial Catalog=TEST;User ID=test_user;Password=Test@12345",
+        "id": "2"
+      }
+    },
+    {
+      "name": "asp2:Business",
+      "config": {
+        "connectionString": "Data Source=10.128.43.57;Initial Catalog=TEST;User ID=test_user;Password=Test@12345",
+        "id": "3"
+      }
+    },
+    {
+      "name": "asp2:Csv",
+      "config": {
+        "sql": "SELECT * from Member"
+      }
+    },
+    {
+      "name": "asp2:Business",
+      "config": {
+        "connectionString": "Data Source=10.128.43.57;Initial Catalog=TEST;User ID=test_user;Password=Test@12345",
+        "id": "1"
+      }
+    },
+    {
+      "name": "asp2:Business",
+      "config": {
+        "connectionString": "Data Source=10.128.43.57;Initial Catalog=TEST;User ID=test_user;Password=Test@12345",
+        "id": "2"
+      }
+    },
+    {
+      "name": "asp2:Business",
+      "config": {
+        "connectionString": "Data Source=10.128.43.57;Initial Catalog=TEST;User ID=test_user;Password=Test@12345",
+        "id": "3"
+      }
+    },
+    {
+      "name": "asp2:Csv",
+      "config": {
+        "sql": "SELECT * from Member"
+      }
+    },
+    {
+      "name": "asp2:Business",
+      "config": {
+        "connectionString": "Data Source=10.128.43.57;Initial Catalog=TEST;User ID=test_user;Password=Test@12345",
+        "id": "1"
+      }
+    },
+    {
+      "name": "asp2:Business",
+      "config": {
+        "connectionString": "Data Source=10.128.43.57;Initial Catalog=TEST;User ID=test_user;Password=Test@12345",
+        "id": "2"
+      }
+    },
+    {
+      "name": "asp2:Business",
+      "config": {
+        "connectionString": "Data Source=10.128.43.57;Initial Catalog=TEST;User ID=test_user;Password=Test@12345",
+        "id": "3"
+      }
+    }
+		]		
+      }
+    },
+    {
+      "name": "asp:Static",
+      "config": {
+        "text": "<p>Always at end</p>",
       }
     },
     {

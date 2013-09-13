@@ -16,16 +16,22 @@ using ten.bew.Caching;
 using ten.bew.Configuration;
 using System.Reflection;
 using System.IO;
+using System.Diagnostics;
 
 namespace ten.bew
 {
     class Program
     {
+        private static LoopAndPumpScheduler LPScheduler;
+
+        public static readonly TraceSource HealthTracing = new TraceSource("health");
+
         public const string PEER_MANAGER_MESSAGE_PROCESSOR_KEY = "__PeerManagerMessageProcessor";
         public const string CACHING_MESSAGE_PROCESSOR_KEY = "caching";
 
         private static bool _running = true;
         private static MainConfigurationSection _config;
+        public static readonly Stopwatch Watch = Stopwatch.StartNew();
 
         public static MainConfigurationSection Config
         {
@@ -37,30 +43,32 @@ namespace ten.bew
 
         static async void BusStarted()
         {
-            Console.WriteLine("Started Bus");
+            HealthTracing.TraceInformation("Started Bus");
         }
 
         static void BusStopped()
         {
-            Console.WriteLine("Stopped Bus");
+            HealthTracing.TraceInformation("Stopped Bus");
         }
 
         static void Main(string[] args)
         {
+            _config = (MainConfigurationSection)System.Configuration.ConfigurationManager.GetSection("tenbew");
+
+            //LPScheduler = new LoopAndPumpScheduler();
+            //CancellationTokenSource globalCancelSource = new CancellationTokenSource();
+            //TaskFactory factory = new TaskFactory(globalCancelSource.Token, TaskCreationOptions.None, TaskContinuationOptions.None, LPScheduler);
+            //factory.StartNew(Run);
+
             Run();
         }
 
         private static void Run()
         {
-            _config = (MainConfigurationSection)System.Configuration.ConfigurationManager.GetSection("tenbew");
-
-            ThreadPool.SetMinThreads(Environment.ProcessorCount * 2, Environment.ProcessorCount);
-            ThreadPool.SetMaxThreads(Environment.ProcessorCount * 4, Environment.ProcessorCount * 2);
-
             ServicePointManager.DefaultConnectionLimit = 1000000;
             ServicePointManager.MaxServicePoints = 1000000;
 
-            Root.ServiceBusInstance = new ServiceBusImpl();
+            Root.ServiceBusInstance = new ServiceBusImpl(Config.ServiceBus.MulticastMAC, Config.ServiceBus.MulticastIP, Config.ServiceBus.MulticastPort);
 
             ISerializer serializerService = Root.ServiceBusInstance.AddLocalService<ISerializer>(new Serializer());
             IPeerManager peerManager = Root.ServiceBusInstance.AddLocalService<IPeerManager>(new PeerManagerImpl());
@@ -106,7 +114,7 @@ namespace ten.bew
 
             foreach (var address in localServerIp)
             {
-                Console.WriteLine(address);
+                HealthTracing.TraceInformation(address);
             }
 
             var statistics = new ServerStatistics();
@@ -127,33 +135,39 @@ namespace ten.bew
                 httpServerRoot = null; // which is fine because we might have a directoryless server.
             }
 
-            IServer server = new HttpServerImpl(httpServerRoot, localServerIp.ToArray());
-            server.StartAsync();
+            IServer httpServer = new HttpServerImpl(httpServerRoot, localServerIp.ToArray());
+            httpServer.StartAsync();
 
             int loopCount = 0;
 
+            ServiceBusImpl typedSB = (ServiceBusImpl)Root.ServiceBusInstance;
+
             while (_running)
             {
-                if (loopCount % 10 == 0)
+                SendKeepAlive(serializerService, Program.PEER_MANAGER_MESSAGE_PROCESSOR_KEY);
+                peerManager.Refresh();
+
+                //HealthTracing.TraceInformation("Tasks:{0}{1}", Environment.NewLine, LPScheduler.Count);
+                HealthTracing.TraceInformation("ServiceBus:{0}{1}", Environment.NewLine, Root.ServiceBusInstance.ToString());
+                HealthTracing.TraceInformation(httpServer.ToString());
+
+                foreach (var key in Root.ServiceBusInstance.MessageProcessors)
                 {
-                    SendKeepAlive(serializerService, Program.PEER_MANAGER_MESSAGE_PROCESSOR_KEY);
-                    peerManager.Refresh();
+                    try
+                    {
+                        HealthTracing.TraceInformation("Key={1}{0}{2}", Environment.NewLine, key, Root.ServiceBusInstance.GetMessageProcessor(key).ToString());
+                    }
+                    catch (Exception ex)
+                    {
+                    }
                 }
 
-                //Console.WriteLine(server);
-                //Console.WriteLine();
-
-                Thread.Sleep(1000);
+                Thread.Sleep(5000);
 
                 loopCount++;
             }
 
-            server.Stop();
-        }
-
-        private static void ProcessCallback(ServiceBusMessage message, object data)
-        {
-            Console.WriteLine("ProcessCallback: {0}", data);
+            httpServer.Stop();
         }
 
         private static void SendKeepAlive(ISerializer serializerService, string pingAddress)

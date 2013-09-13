@@ -12,12 +12,13 @@ namespace POC.ten.bew.App.Chunks
 {
     public class BusinessChunk : SqlDataChunk
     {
-        private readonly byte[] TABLE = System.Text.Encoding.UTF8.GetBytes("<table>");
-        private readonly byte[] TABLE_END = System.Text.Encoding.UTF8.GetBytes("</table>");
-        private readonly byte[] TR = System.Text.Encoding.UTF8.GetBytes("<tr>");
-        private readonly byte[] TD = System.Text.Encoding.UTF8.GetBytes("<td>");
-        private readonly byte[] TR_END = System.Text.Encoding.UTF8.GetBytes("</tr>");
-        private readonly byte[] TD_END = System.Text.Encoding.UTF8.GetBytes("</td>");
+        private static readonly byte[] MACHINE_NAME_BYTES = System.Text.Encoding.UTF8.GetBytes(Environment.MachineName);
+        private static readonly byte[] TABLE = System.Text.Encoding.UTF8.GetBytes("<table>");
+        private static readonly byte[] TABLE_END = System.Text.Encoding.UTF8.GetBytes("</table>");
+        private static readonly byte[] TR = System.Text.Encoding.UTF8.GetBytes("<tr>");
+        private static readonly byte[] TD = System.Text.Encoding.UTF8.GetBytes("<td>");
+        private static readonly byte[] TR_END = System.Text.Encoding.UTF8.GetBytes("</tr>");
+        private static readonly byte[] TD_END = System.Text.Encoding.UTF8.GetBytes("</td>");
 
         public class Creator : ChunkCreator
         {
@@ -53,6 +54,10 @@ namespace POC.ten.bew.App.Chunks
             redirectionStream = (redirectionStream ?? client.Context.Response.OutputStream);   
          
             await redirectionStream.WriteAsync(TR, 0, TR.Length);
+
+            await redirectionStream.WriteAsync(TD, 0, TD.Length);
+            await redirectionStream.WriteAsync(MACHINE_NAME_BYTES, 0, MACHINE_NAME_BYTES.Length);
+            await redirectionStream.WriteAsync(TD_END, 0, TD_END.Length);
 
             foreach (var value in values)
             {

@@ -14,11 +14,15 @@ namespace ten.bew.Server
 {
     class HttpServerImpl : IServer
     {
+        public const int TRACEEVENT_ERROR = 0;
+        public const int TRACEEVENT_RECEIVED = 1;
+
         private readonly byte[] _404 = System.Text.Encoding.UTF8.GetBytes("404 not found");
 
         private byte[] _data;
-        private long _requestCount;
-        private long _closeRequestCount;
+        private long _requestCount;  
+        private long _requestFailed;
+        private long _requestCompleteCount;
         private long _activeCount;
         private long _tickCount;
         private long _maxActive;
@@ -29,6 +33,7 @@ namespace ten.bew.Server
         private Stopwatch _timer = Stopwatch.StartNew();
         private string _rootDisk;
         private Lazy<ICache> _cache;
+        private TraceSource _tracingHttpServerSource = new TraceSource("httpServer");
 
         public ICache Cache
         {
@@ -37,39 +42,45 @@ namespace ten.bew.Server
                 return _cache.Value;
             }
         }
-
         public override string ToString()
         {
-            StringBuilder builder = new StringBuilder();
-            builder.Append("MaxActive: ");
+            StringBuilder builder = new StringBuilder(GetType().Name);
+            builder.AppendLine();
+
+            builder.Append("\tMaxActive: ");
             builder.AppendLine(Interlocked.Read(ref _maxActive).ToString());
-            builder.Append("Active: ");
+            builder.Append("\tActive: ");
             builder.AppendLine(Interlocked.Read(ref _activeCount).ToString());
 
-            var requestCount = Interlocked.Read(ref _requestCount);
-            var closeRequestCount = Interlocked.Read(ref _closeRequestCount);
+            var requestCount = RequestCount;
+            var requestCompleteCount = RequestCompleteCount;
+            var requestFailed = RequestFailed;
+
             var tickCount = Interlocked.Read(ref _tickCount);
 
-            builder.Append("RequestCount: ");
-            builder.AppendLine(requestCount.ToString());
+            builder.Append("\tRequestCount: ");
+            builder.AppendLine(RequestCount.ToString());
 
-            builder.Append("CloseRequestCount: ");
-            builder.AppendLine(closeRequestCount.ToString());
+            builder.Append("\tRequestFailed: ");
+            builder.AppendLine(RequestFailed.ToString());
+
+            builder.Append("\tRequestComplete: ");
+            builder.AppendLine(Interlocked.Read(ref requestCompleteCount).ToString());
 
             if(requestCount > 0)
             {
                 TimeSpan timeSpan = TimeSpan.FromTicks(tickCount);
                 var avg = timeSpan.TotalMilliseconds / (double)requestCount;
 
-                builder.Append("AvgTimeToLastByte: ");
+                builder.Append("\tAvgTimeToLastByte: ");
                 builder.AppendLine(avg.ToString("0.0000000"));
             }
 
-            builder.AppendLine("Cache:");
+            builder.AppendLine("\tCache:");
 
             foreach(var item in Cache.Keys)
             {
-                builder.Append("\t");
+                builder.Append("\t\t");
                 builder.Append(item);
                 builder.Append("=");
                 builder.AppendLine(Cache[item].TokenSource.IsCancellationRequested ? "complete" : "building");
@@ -91,6 +102,30 @@ namespace ten.bew.Server
             _prefixes = (from p in prefixes orderby prefixes.Length descending select p).ToArray();
         }
 
+        public long RequestCount
+        {
+            get
+            {
+                return Interlocked.Read(ref _requestCount);
+            }
+        }
+
+        public long RequestCompleteCount
+        {
+            get
+            {
+                return Interlocked.Read(ref _requestCompleteCount);
+            }
+        }
+
+
+        public long RequestFailed
+        {
+            get
+            {
+                return Interlocked.Read(ref _requestFailed);
+            }
+        }
 
         public async Task StartAsync()
         {
@@ -106,37 +141,40 @@ namespace ten.bew.Server
 
                 _listener.Start();
 
+                _tracingHttpServerSource.TraceInformation("Http Server Started");
+
                 while (_running)
                 {
                     try
                     {
                         var context = await _listener.GetContextAsync();
-
-                        HttpClientImpl client = new HttpClientImpl(context)
-                        {
-                            StartTicks = _timer.ElapsedTicks
-                        };
-
-                        Interlocked.Increment(ref _requestCount);
-                        var task = Incoming(client);
+                        Incoming(context);
                     }
                     catch (Exception ex)
                     {
-                        Console.WriteLine(ex.Message);
+                        Interlocked.Increment(ref _requestFailed);
+                        _tracingHttpServerSource.TraceData(TraceEventType.Error, TRACEEVENT_ERROR, ex);
                     }
                 }
             }
             catch(Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                _tracingHttpServerSource.TraceData(TraceEventType.Error, TRACEEVENT_ERROR, ex);
             }
         }
 
-        private async Task Incoming(HttpClientImpl client)
+        private async Task Incoming(HttpListenerContext context)
         {
             try            
             {
-                HttpListenerContext context = client.Context;
+                _tracingHttpServerSource.TraceEvent(TraceEventType.Verbose, TRACEEVENT_RECEIVED);
+                Interlocked.Increment(ref _requestCount);
+
+                HttpClientImpl client = new HttpClientImpl(context)
+                {
+                    StartTicks = _timer.ElapsedTicks
+                };
+
                 var currentActive = Interlocked.Increment(ref _activeCount);
                 var maxActive = Interlocked.Read(ref _maxActive);
                 maxActive = Math.Max(currentActive, maxActive);
@@ -171,11 +209,11 @@ namespace ten.bew.Server
             }
             catch(Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                _tracingHttpServerSource.TraceData(TraceEventType.Error, TRACEEVENT_ERROR, ex);
             }
             finally
             {
-                Interlocked.Increment(ref _closeRequestCount);
+                Interlocked.Increment(ref _requestCompleteCount);
                 Interlocked.Decrement(ref _activeCount);   
             }
         }

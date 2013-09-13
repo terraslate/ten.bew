@@ -37,6 +37,20 @@ namespace ten.bew.Configuration
             }
         }
 
+        [ConfigurationProperty("serviceBus")]
+        public ServiceBusConfigurationElement ServiceBus
+        {
+            get
+            {
+                var rv = (ServiceBusConfigurationElement)this["serviceBus"];
+                return rv;
+            }
+            set
+            {
+                this["serviceBus"] = value;
+            }
+        }
+
         [ConfigurationProperty("httpServer")]
         public HttpServerConfigurationElement HttpServer
         {
@@ -48,6 +62,51 @@ namespace ten.bew.Configuration
             set
             {
                 this["httpServer"] = value;
+            }
+        }
+    }
+
+    public class ServiceBusConfigurationElement : ConfigurationElement
+    {
+        [ConfigurationProperty("multicast_mac")]
+        public string MulticastMAC
+        {
+            get
+            {
+                var rv = (string)this["multicast_mac"];
+                return rv;
+            }
+            set
+            {
+                this["multicast_mac"] = value;
+            }
+        }
+
+        [ConfigurationProperty("multicast_ip")]
+        public string MulticastIP
+        {
+            get
+            {
+                var rv = (string)this["multicast_ip"];
+                return rv;
+            }
+            set
+            {
+                this["multicast_ip"] = value;
+            }
+        }
+
+        [ConfigurationProperty("multicast_port")]
+        public ushort MulticastPort
+        {
+            get
+            {
+                var rv = (ushort)this["multicast_port"];
+                return rv;
+            }
+            set
+            {
+                this["multicast_port"] = value;
             }
         }
     }

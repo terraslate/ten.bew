@@ -48,6 +48,7 @@
     <Compile Include="Caching\CacheEntry.cs" />
     <Compile Include="Caching\CachingMessageProcessor.cs" />
     <Compile Include="Configuration\MainConfigurationSection.cs" />
+    <Compile Include="LoopAndPumpScheduler.cs" />
     <Compile Include="Messaging\JSONMessageProcessorBase.cs" />
     <Compile Include="Server\CacheImpl.cs" />
     <Compile Include="Program.cs" />
@@ -55,6 +56,7 @@
     <Compile Include="Server\Chunks\CachingChunk.cs" />
     <Compile Include="Server\Chunks\ChunkBase.cs" />
     <Compile Include="Server\Chunks\ChunkCreator.cs" />
+    <Compile Include="Server\Chunks\ParallelChunk.cs" />
     <Compile Include="Server\Chunks\FileChunk.cs" />
     <Compile Include="Server\Chunks\RESTChunk.cs" />
     <Compile Include="Server\HttpClientImpl.cs" />

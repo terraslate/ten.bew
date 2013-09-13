@@ -119,13 +119,13 @@ namespace ten.bew.Server.Chunks
                 }
             }
 
-            BuildChunks(_chunks, description);
+            BuildChunks(Server, _chunks, description);
         }
 
         private static readonly char[] ColonSplitter = ":".ToCharArray();
         private static readonly char[] CommaSplitter = ",".ToCharArray();
 
-        private void BuildChunks(IList<ChunkBase> chunks, PageDescription description)
+        internal static void BuildChunks(IServer server, IList<ChunkBase> chunks, PageDescription description)
         {
             foreach (var chunkDescription in description.Chunks)
             {
@@ -140,7 +140,7 @@ namespace ten.bew.Server.Chunks
 
                 var chunkCreatorWrap = Activator.CreateInstance(type);
                 ChunkCreator chunkCreator = (ChunkCreator)chunkCreatorWrap;
-                ChunkBase chunk = chunkCreator.Create(Server, chunkDescription.Config);
+                ChunkBase chunk = chunkCreator.Create(server, chunkDescription.Config);
                 chunk.SendType = SendTypeEnum.None;
                 chunks.Add(chunk);
             }

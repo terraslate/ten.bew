@@ -24,7 +24,23 @@ namespace i.ten.bew.Messaging
         public readonly Guid InReplyTo;
         public readonly string Address;
         public readonly DataFormatEnum DataFormat;
+
+        private bool _originatorRequiresReply;  
+        private DateTime _dateTimeUTC;
         private byte[] _data;
+
+        public void MarkOriginatorRequiresReply()
+        {
+            _originatorRequiresReply = true;
+        }
+
+        public bool OriginatorRequiresReply
+        {
+            get
+            {
+                return _originatorRequiresReply;
+            }
+        }
 
         public double Longitude
         {
@@ -133,6 +149,29 @@ namespace i.ten.bew.Messaging
         {
             var rv = JsonConvert.SerializeObject(this);
             return rv;
+        }
+
+        public void SetSendTimeUTC(DateTime dateTimeUTC)
+        {
+            if(dateTimeUTC != DateTime.MinValue)
+            {
+                _dateTimeUTC = dateTimeUTC;
+            }
+        }
+
+        public TimeSpan Age
+        {
+            get
+            {
+                TimeSpan rv = TimeSpan.MinValue;
+
+                if (_dateTimeUTC > DateTime.MinValue)
+                {
+                    rv = DateTime.UtcNow - _dateTimeUTC;
+                }
+
+                return rv;
+            }
         }
     }
 }

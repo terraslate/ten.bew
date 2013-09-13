@@ -3,6 +3,7 @@ using i.ten.bew.Messaging;
 using i.ten.bew.Server;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Configuration;
 using System.Diagnostics;
 using System.IO;
@@ -18,29 +19,112 @@ namespace ten.bew.Messaging
 {
     class ServiceBusImpl : IServiceBus
     {
-        private static List<Task> replies = new List<Task>();
+        public const int TRACEEVENT_ERROR = 0;
+        public const int TRACEEVENT_DISCARDMESSAGE = 1;
+        public const int TRACEEVENT_RECEIVEMESSAGE = 2;
+        public const int TRACEEVENT_SENDASYNC = 3;
+
+        private static readonly Stopwatch _watch = Stopwatch.StartNew();
 
         private Dictionary<string, IMessageProcessor> _messageProcessors;
         private Dictionary<Type, Object> _localServices;
         private UdpClient _receiverClient;
         private UdpClient _senderClient;
         private bool _listening;
-        private string _macAddress = ConfigurationManager.AppSettings["multicastMAC"];
-        private string _multicastAddress = ConfigurationManager.AppSettings["multicastIP"];
-        private int _port = Int32.Parse(ConfigurationManager.AppSettings["multicastPort"]);
+        private string _multicastMAC;
+        private string _multicastIP;
+        private int _multicastPort;
         private LinkedList<ReplyTaskDictionary> _outgoingMessages;
+        private TraceSource _serviceBusTracing = new TraceSource("serviceBus");
+        private long _receivedDataGram, _acceptDataGram, _rejectDataGram, _acceptMessage, _rejectMessage, _replyMessage, _sendingAsync, _sentAsyncOK, _sentAsyncFailed, _replyMessageNotFound;
+        private System.Reflection.PropertyInfo[] _properties;
+        private int _sendAsyncReplyCount;
 
-        public ServiceBusImpl()
+        public ServiceBusImpl(string multicastMac, string multicastIP, ushort multicastPort)
         {
+            _properties = GetType().GetProperties(System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.FlattenHierarchy);
+            _multicastMAC = multicastMac;
+            _multicastIP = multicastIP;
+            _multicastPort = multicastPort;
             _outgoingMessages = new LinkedList<ReplyTaskDictionary>();
             _localServices = new Dictionary<Type, object>();
             _messageProcessors = new Dictionary<string, IMessageProcessor>();
-            _macAddress = ConfigurationManager.AppSettings["multicastMAC"];
-            _multicastAddress = ConfigurationManager.AppSettings["multicastIP"];
 
-            if (Int32.TryParse(ConfigurationManager.AppSettings["multicastPort"], out _port) == false)
+            if (Int32.TryParse(ConfigurationManager.AppSettings["multicastPort"], out _multicastPort) == false)
             {
-                _port = 4567;
+                _multicastPort = 4567;
+            }
+        }
+
+        public long ReceivedDataGram
+        {
+            get
+            {
+                return Interlocked.Read(ref _receivedDataGram);
+            }
+        }
+
+        public long AcceptDataGram
+        {
+            get
+            {
+                return Interlocked.Read(ref _acceptDataGram);
+            }
+        }
+
+        public long RejectDataGram
+        {
+            get
+            {
+                return Interlocked.Read(ref _rejectDataGram);
+            }
+        }
+
+
+        public long AcceptMessage
+        {
+            get
+            {
+                return Interlocked.Read(ref _acceptMessage);
+            }
+        }
+
+        public long SendingAsync
+        {
+            get
+            {
+                return Interlocked.Read(ref _sendingAsync);
+            }
+        }
+
+        public long SentAsyncOK
+        {
+            get
+            {
+                return Interlocked.Read(ref _sentAsyncOK);
+            }
+        }
+
+        public long SentAsyncFailed
+        {
+            get
+            {
+                return Interlocked.Read(ref _sentAsyncFailed);
+            }
+        }
+
+        public long RejectMessage
+        {
+            get
+            {
+                return Interlocked.Read(ref _rejectMessage);
+            }
+        }
+        public long ReplyMessageNotFound
+        {
+            get
+            {
+                return Interlocked.Read(ref _replyMessageNotFound);
             }
         }
 
@@ -48,7 +132,7 @@ namespace ten.bew.Messaging
         {
             get
             {
-                return _multicastAddress;
+                return _multicastIP;
             }
         }
 
@@ -67,7 +151,7 @@ namespace ten.bew.Messaging
         {
             get
             {
-                return _port;
+                return _multicastPort;
             }
         }
 
@@ -75,7 +159,7 @@ namespace ten.bew.Messaging
         {
             get
             {
-                return _macAddress;
+                return _multicastMAC;
             }
         }
 
@@ -88,49 +172,50 @@ namespace ten.bew.Messaging
             bool foundIp = false;
             var netInterfaces = (from netInterface in System.Net.NetworkInformation.NetworkInterface.GetAllNetworkInterfaces() where netInterface.SupportsMulticast && netInterface.OperationalStatus == System.Net.NetworkInformation.OperationalStatus.Up select netInterface);
 
+
             foreach (var netInterface in netInterfaces)
             {
                 var properties = netInterface.GetIPProperties();
 
                 string macAddress = BitConverter.ToString(netInterface.GetPhysicalAddress().GetAddressBytes());
 
-                Console.Write(netInterface.Name + ": " + macAddress);
+                _serviceBusTracing.TraceInformation(netInterface.Name + ": " + macAddress);
 
-                if (_macAddress == macAddress)
+                if (_multicastMAC == macAddress)
                 {
                     foundMac = true;
 
                     var mca = netInterface.GetIPProperties().MulticastAddresses;
 
-                    Console.WriteLine(" - Multicast address count {0}", (mca == null ? 0 : mca.Count));
+                    _serviceBusTracing.TraceInformation(" - Multicast address count {0}", (mca == null ? 0 : mca.Count));
 
                     foreach (var multicastAddress in mca)
                     {
                         if (multicastAddress.Address.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
                         {
-                            Console.WriteLine(" Found ip {0}.", multicastAddress.Address);
+                            _serviceBusTracing.TraceInformation(" Found ip {0}.", multicastAddress.Address);
 
-                            if ((multicastAddress.Address.ToString() == _multicastAddress))
+                            if ((multicastAddress.Address.ToString() == _multicastIP))
                             {
                                 foundIp = true;
 
-                                _receiverClient = new UdpClient(_port);
+                                _receiverClient = new UdpClient(_multicastPort);
                                 _receiverClient.MulticastLoopback = false;
 
-                                _senderClient = new UdpClient(_multicastAddress, _port);
+                                _senderClient = new UdpClient(_multicastIP, _multicastPort);
 
-                                Console.Write("\t");
-                                Console.Write(_multicastAddress);
+                                _serviceBusTracing.TraceInformation("\t");
+                                _serviceBusTracing.TraceInformation(_multicastIP);
 
                                 try
                                 {
                                     _receiverClient.JoinMulticastGroup(multicastAddress.Address);
-                                    Console.WriteLine(" joined.");
+                                    _serviceBusTracing.TraceInformation(" joined.");
                                 }
                                 catch (Exception ex)
                                 {
-                                    Console.Write(" not joined. ");
-                                    Console.WriteLine(ex.Message);
+                                    _serviceBusTracing.TraceInformation(" not joined. ");
+                                    _serviceBusTracing.TraceData(TraceEventType.Warning, 0, ex);
                                 }
 
                                 break;
@@ -142,14 +227,16 @@ namespace ten.bew.Messaging
                 }
                 else
                 {
-                    Console.WriteLine(" ignored.");
+                    _serviceBusTracing.TraceInformation(" ignored.");
                 }
             }
 
             if (foundMac == false || foundIp == false)
             {
                 Stop();
-                throw new InvalidOperationException("Can't listen on the specified natwork interface card.");
+                var error = new InvalidOperationException("Can't listen on the specified natwork interface card.");
+                _serviceBusTracing.TraceData(TraceEventType.Critical, 0, error);
+                throw error;
             }
 
             if (startedHandler != null)
@@ -159,7 +246,7 @@ namespace ten.bew.Messaging
 
             Cleanup();
 
-            int cleanupInterval = (int)TimeSpan.FromSeconds(60000).TotalMilliseconds;
+            int cleanupInterval = (int)TimeSpan.FromSeconds(12).TotalMilliseconds;
 
             using (Timer timer = new Timer((o) => { Cleanup(); }, null, cleanupInterval, cleanupInterval))
             {
@@ -190,18 +277,20 @@ namespace ten.bew.Messaging
                 }
             }
 
-            if(removed != null)            
+            if (removed != null)
             {
                 try
                 {
                     removed.Value.Cancel();
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
-                    Debug.WriteLine(string.Format("{0} : {1}", ex.StackTrace, ex.Message));
+                    _serviceBusTracing.TraceData(TraceEventType.Warning, TRACEEVENT_ERROR, ex);
                 }
             }
         }
+
+        private Dictionary<string, Reference<int>> _messageCounter = new Dictionary<string, Reference<int>>();
 
         private async Task ListenLoop()
         {
@@ -210,72 +299,110 @@ namespace ten.bew.Messaging
                 try
                 {
                     var result = await _receiverClient.ReceiveAsync();
-
-                    ServiceBusMessage message = null;
-                    BinaryFormatter formatter = new BinaryFormatter();
-
-                    using (MemoryStream ms = new MemoryStream(result.Buffer))
-                    {
-                        message = formatter.Deserialize(ms) as ServiceBusMessage;
-                    }
-
-                    if(message == null)
-                    {
-                        Console.WriteLine("Discarded message.");
-                        continue;
-                    }
-
-                    Console.WriteLine("Received Message: {0}", message);
-
-                    if ((ServiceBusMessage.TO_ALL_NODES.Equals(message.ToNode) || Environment.MachineName.Equals(message.ToNode)) && _messageProcessors.ContainsKey(message.Address))
-                    {
-                        if (_messageProcessors.ContainsKey(message.Address))
-                        {
-                            var messageProcessor = _messageProcessors[message.Address];
-                            
-                            Task replyTask = null;
-                            IReplyInfo replyReferenceInfo = null;
-
-                            if (Guid.Empty.Equals(message.InReplyTo) == false)
-                            {
-                                lock (_outgoingMessages)
-                                {
-                                    foreach (var value in _outgoingMessages)
-                                    {
-                                        if (value.ContainsKey(message.InReplyTo))
-                                        {
-                                            replyTask = value[message.InReplyTo];
-                                            replyReferenceInfo = (IReplyInfo)replyTask;
-
-                                            if (replyTask != null)
-                                            {
-                                                value.Remove(message.InReplyTo);
-                                                replyReferenceInfo.ReplyMessage = message;
-                                                break;
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-
-                            var executing = messageProcessor.ProcessMessageAsync(message).ContinueWith(
-                                (task) => 
-                                {
-                                    if (replyTask != null)
-                                    {
-                                        replyReferenceInfo.Payload = task.Result;
-                                        replyTask.Start();
-                                    }
-                                }
-                            );
-                        }
-                    }
-
+                    Interlocked.Increment(ref _receivedDataGram);
+                    ProcessDataGram(result);
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine(ex.Message);
+                    _serviceBusTracing.TraceData(TraceEventType.Error, TRACEEVENT_ERROR, ex);
                 }
+            }
+        }
+
+        private async Task ProcessDataGram(UdpReceiveResult result)
+        {
+            try
+            {
+                ServiceBusMessage message = null;
+                BinaryFormatter formatter = new BinaryFormatter();
+
+                using (MemoryStream ms = new MemoryStream(result.Buffer))
+                {
+                    message = formatter.Deserialize(ms) as ServiceBusMessage;
+                }
+
+                if (message == null)
+                {
+                    Interlocked.Increment(ref _rejectDataGram);
+                    _serviceBusTracing.TraceEvent(TraceEventType.Verbose, TRACEEVENT_DISCARDMESSAGE, "Discarded message.");
+                    return;
+                }
+                else
+                {
+                    Interlocked.Increment(ref _acceptDataGram);
+                }
+
+                _serviceBusTracing.TraceData(TraceEventType.Verbose, TRACEEVENT_RECEIVEMESSAGE, message);
+
+                if ((ServiceBusMessage.TO_ALL_NODES.Equals(message.ToNode) || Environment.MachineName.Equals(message.ToNode)) && _messageProcessors.ContainsKey(message.Address))
+                {
+                    Interlocked.Increment(ref _acceptMessage);
+
+                    var messageProcessor = _messageProcessors[message.Address];
+
+                    Task replyTask = null;
+                    IReplyInfo replyReferenceInfo = null;
+
+                    if (Guid.Empty.Equals(message.InReplyTo) == false)
+                    {
+                        TimeSpan started = _watch.Elapsed;
+
+                        lock (_outgoingMessages)
+                        {
+                            TimeSpan duration = _watch.Elapsed - started;
+
+                            if (duration.TotalSeconds >= 3)
+                            {
+                                _serviceBusTracing.TraceInformation("Long lock");
+                            }
+
+                            foreach (var value in _outgoingMessages)
+                            {
+                                if (value.ContainsKey(message.InReplyTo))
+                                {
+                                    replyTask = value[message.InReplyTo];
+                                    replyReferenceInfo = (IReplyInfo)replyTask;
+
+                                    if (replyTask != null)
+                                    {
+                                        Interlocked.Increment(ref _replyMessage);
+                                        value.Remove(message.InReplyTo);
+                                        replyReferenceInfo.ReplyMessage = message;
+                                        break;
+                                    }
+                                }
+                                else
+                                {
+                                    _serviceBusTracing.TraceInformation("Trying next message container.");
+                                }
+                            }
+                        }
+
+                        if (_replyMessage == null)
+                        {
+                            Interlocked.Increment(ref _replyMessageNotFound);
+                        }
+                    }
+
+                    var executing = messageProcessor.ProcessMessageAsync(message).ContinueWith(
+                        (task) =>
+                        {
+                            if (replyTask != null)
+                            {
+                                replyReferenceInfo.Payload = task.Result;
+                                replyTask.Start();
+                            }
+                        }
+                    );
+                }
+                else
+                {
+                    Interlocked.Increment(ref _rejectMessage);
+                }
+            }
+            catch (Exception ex)
+            {
+                _serviceBusTracing.TraceData(TraceEventType.Error, TRACEEVENT_ERROR, ex);
             }
         }
 
@@ -297,19 +424,24 @@ namespace ten.bew.Messaging
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                _serviceBusTracing.TraceData(TraceEventType.Warning, TRACEEVENT_ERROR, ex);
             }
             finally
             {
                 _listening = false;
             }
         }
+        public long SendAsyncReplyCount
+        {
+            get
+            {
+                return _sendAsyncReplyCount;
+            }
+        }
 
         public async Task SendAsync<P>(ServiceBusMessage message, Reference<ReplyTask<P>> replyReference) where P : class
         {
             UdpClient udpSender = null;
-
-            var data = Root.ServiceBusInstance.GetLocalService<ISerializer>().Serialize(message);
 
             if (ServiceBusMessage.TO_ALL_NODES.Equals(message.ToNode))
             {
@@ -321,8 +453,10 @@ namespace ten.bew.Messaging
 
                 if (peerInfo != null && peerInfo.IPAddresses.Length > 0)
                 {
+                    Interlocked.Increment(ref _sendAsyncReplyCount);
+
                     var peerAddress = peerInfo.IPAddresses[0];
-                    var senderClient = new UdpClient(peerAddress, _port);
+                    var senderClient = new UdpClient(peerAddress, _multicastPort);
                     udpSender = senderClient;
                 }
                 else
@@ -338,10 +472,33 @@ namespace ten.bew.Messaging
                     lock (_outgoingMessages)
                     {
                         replyReference.Item = _outgoingMessages.First.Value.AddForMessage<P>(message);
+                        message.MarkOriginatorRequiresReply();
                     }
                 }
 
-                udpSender.SendAsync(data, data.Length).ContinueWith((task) => { Console.WriteLine("SendAsync {0} bytes.", task.Result); });
+                Interlocked.Increment(ref _sendingAsync);
+
+                message.SetSendTimeUTC(DateTime.UtcNow);
+                var data = Root.ServiceBusInstance.GetLocalService<ISerializer>().Serialize(message);
+
+                udpSender.SendAsync(data, data.Length).ContinueWith(
+                    (task) =>
+                    {
+                        if (task.Status != TaskStatus.RanToCompletion)
+                        {
+                            _serviceBusTracing.TraceEvent(TraceEventType.Warning, TRACEEVENT_SENDASYNC, "SendAsync {1} - {0} bytes.", task.Result, task.Status);
+                            Interlocked.Increment(ref _sentAsyncFailed);
+                        }
+                        else
+                        {
+                            _serviceBusTracing.TraceEvent(TraceEventType.Verbose, TRACEEVENT_SENDASYNC, "SendAsync OK {0} bytes.", task.Result);
+                            Interlocked.Increment(ref _sentAsyncOK);
+                        }
+
+                        _serviceBusTracing.TraceEvent(TraceEventType.Verbose, TRACEEVENT_SENDASYNC, "SendAsync {0} bytes.", task.Result);
+                    }
+                );
+
             }
             else
             {
@@ -420,18 +577,71 @@ namespace ten.bew.Messaging
             return (T)_localServices[typeof(T)];
         }
 
-
-
         public IMessageProcessor GetMessageProcessor(string address)
         {
             IMessageProcessor rv = null;
 
-            if(_messageProcessors.ContainsKey(address))
+            if (_messageProcessors.ContainsKey(address))
             {
                 rv = _messageProcessors[address];
             }
 
             return rv;
+        }
+
+        public int AwaitingReply
+        {
+            get
+            {
+                int rv = 0;
+
+                lock (_outgoingMessages)
+                {
+                    foreach (var item in _outgoingMessages)
+                    {
+                        rv += item.Count;
+                    }
+                }
+
+                return rv;
+            }
+        }
+
+        public override string ToString()
+        {
+            StringBuilder builder = new StringBuilder(GetType().Name);
+            builder.AppendLine();
+
+            foreach (var property in _properties)
+            {
+                builder.Append("\t");
+                builder.Append(property.Name);
+                builder.Append(": ");
+
+                string sValue = "{NULL}";
+                object value = property.GetValue(this);
+
+                if (property.PropertyType != typeof(string))
+                {
+                    var converter = TypeDescriptor.GetConverter(property.PropertyType);
+
+                    if (converter != null)
+                    {
+                        sValue = converter.ConvertToString(value);
+                    }
+                }
+                else
+                {
+                    if (value != null)
+                    {
+                        sValue = (string)value;
+                    }
+                }
+
+                builder.AppendLine(sValue);
+            }
+
+            return builder.ToString();
         }
     }
 }

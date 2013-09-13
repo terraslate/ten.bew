@@ -7,8 +7,8 @@
     <ProjectGuid>{37C1A361-FD63-4743-A9A5-1E40A6870183}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>EF.ten.bew.App</RootNamespace>
-    <AssemblyName>EF.ten.bew.App</AssemblyName>
+    <RootNamespace>POC.ten.bew.App</RootNamespace>
+    <AssemblyName>POC.ten.bew.App</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -68,12 +68,16 @@
     <Content Include="WWWRoot\index.page">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="WWWRoot\parallel_test.page">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
     <Content Include="WWWRoot\iisstart.htm">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="WWWRoot\Sql\CREATE_MEMBER_TABLE.sql" />
     <Content Include="WWWRoot\welcome.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

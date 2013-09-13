@@ -12,5 +12,9 @@ namespace i.ten.bew.Messaging
         object ProcessMessage(ServiceBusMessage message);
 
         Task<object> ProcessMessageAsync(ServiceBusMessage message);
+
+        long Processed { get; }
+
+        long Active { get; }
     }
 }
